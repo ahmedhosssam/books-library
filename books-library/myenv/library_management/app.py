@@ -8,7 +8,7 @@ app.secret_key = 'your_secret_key'
 inventory = []
 borrowed_books = {}
 
-borrowed_path = 'data/borrowed_books.json'
+borrowed_books_path = 'data/borrowed_books.json'
 inventory_path = 'data/library_inventory.json'
 
 # Create the file if it doesn't exist
@@ -21,7 +21,7 @@ if not os.path.isfile(borrowed_books_path):
         json.dump(borrowed_books, f)
 
 with open(inventory_path, 'r') as f:
-    inventory_path = json.load(f)
+    inventory = json.load(f)
 
 with open(borrowed_books_path, 'r') as f:
     borrowed_books = json.load(f)
@@ -62,7 +62,7 @@ def return_book(title):
 
 def save_data():
     print(inventory_path)
-    with open('/app/data/borrowed_books.json', 'w') as f:
+    with open(inventory_path, 'w') as f:
         json.dump(inventory, f)
     with open(borrowed_books_path, 'w') as f:
         json.dump(borrowed_books, f)

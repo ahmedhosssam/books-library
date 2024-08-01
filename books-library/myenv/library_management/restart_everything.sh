@@ -7,8 +7,8 @@ minikube kubectl -- delete ingress flask-app-ingress
 minikube kubectl -- delete pvc json-pvc
 minikube kubectl -- delete pv json-pv
 
-docker build -t ahmedhosssam/flask-app:1722344571 .
-docker push ahmedhosssam/flask-app:1722344571
+docker build -t ahmedhosssam/flask-app:1722344581 .
+docker push ahmedhosssam/flask-app:1722344581
 
 minikube kubectl -- apply -f pv.yaml
 minikube kubectl -- apply -f pvc.yaml
