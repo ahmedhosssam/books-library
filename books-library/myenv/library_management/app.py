@@ -5,25 +5,23 @@ import json
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-library_inventory = []
+inventory = []
 borrowed_books = {}
 
-borrowed_books_path = '/app/data/borrowed_books.json'
-library_inventory_path = '/app/data/library_inventory.json'
-#borrowed_books_path = os.path.join('/data', 'borrowed_books.json')
-#library_inventory_path = os.path.join('/data', 'library_inventory.json')
+borrowed_path = 'data/borrowed_books.json'
+inventory_path = 'data/library_inventory.json'
 
 # Create the file if it doesn't exist
-if not os.path.isfile(library_inventory_path):
-    with open(library_inventory_path, 'w') as f:
-        json.dump(library_inventory, f)
+if not os.path.isfile(inventory_path):
+    with open(inventory_path, 'w') as f:
+        json.dump(inventory, f)
 
 if not os.path.isfile(borrowed_books_path):
     with open(borrowed_books_path, 'w') as f:
         json.dump(borrowed_books, f)
 
-with open(library_inventory_path, 'r') as f:
-    library_inventory_path = json.load(f)
+with open(inventory_path, 'r') as f:
+    inventory_path = json.load(f)
 
 with open(borrowed_books_path, 'r') as f:
     borrowed_books = json.load(f)
@@ -31,25 +29,25 @@ with open(borrowed_books_path, 'r') as f:
 # Step 2: Define the Functions
 def add_book(title, author):
     book = {"title": title, "author": author}
-    library_inventory.append(book)
+    inventory.append(book)
     save_data()
 
 def remove_book(title):
-    global library_inventory
-    library_inventory = [book for book in library_inventory if book["title"] != title]
+    global inventory
+    inventory = [book for book in inventory if book["title"] != title]
     save_data()
 
 def search_book(title):
-    for book in library_inventory:
+    for book in inventory:
         if book["title"].lower() == title.lower():
             return book
     return None
 
 def borrow_book(title, borrower):
-    for book in library_inventory:
+    for book in inventory:
         if book["title"].lower() == title.lower():
             borrowed_books[title] = borrower
-            library_inventory.remove(book)
+            inventory.remove(book)
             save_data()
             return True
     return False
@@ -63,14 +61,14 @@ def return_book(title):
     return False
 
 def save_data():
-    print(library_inventory_path)
+    print(inventory_path)
     with open('/app/data/borrowed_books.json', 'w') as f:
-        json.dump(library_inventory, f)
+        json.dump(inventory, f)
     with open(borrowed_books_path, 'w') as f:
         json.dump(borrowed_books, f)
 @app.route('/')
 def index():
-    return render_template('index.html', library_inventory=library_inventory)
+    return render_template('index.html', library_inventory=inventory)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():

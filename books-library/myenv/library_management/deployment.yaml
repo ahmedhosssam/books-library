@@ -21,8 +21,8 @@ spec:
           ports:
           - containerPort: 5000
           volumeMounts:
-              - mountPath: /app/data
-                name: json-storage
+              - name: json-storage
+                mountPath: /app/data
       volumes:
         - name: json-storage
           persistentVolumeClaim:
