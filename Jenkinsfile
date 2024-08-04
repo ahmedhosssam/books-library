@@ -19,7 +19,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build(DOCKER_IMAGE, '-f books-library/myenv/library_management/Dockerfile .')
+                    docker.build(DOCKER_IMAGE, '-f Dockerfile .')
                 }
             }
         }
