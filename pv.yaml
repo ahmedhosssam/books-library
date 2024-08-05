@@ -9,3 +9,5 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: /data
+  storageClassName: gp2
+
