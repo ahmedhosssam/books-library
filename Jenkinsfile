@@ -43,19 +43,21 @@ pipeline {
                     script {
                         // Configure AWS CLI
                         sh '''
-                            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-                            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-                            aws configure set region eu-central-1
+                            sudo aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+                            sudo aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+                            sudo aws configure set region eu-central-1
                         '''
 
+                        // sudo aws eks update-kubeconfig --name team4 --kubeconfig /home/ahmed/.kube/config
                         // Update kubeconfig
                         sh '''
-                            aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --kubeconfig $KUBECONFIG_PATH
+                            sudo aws eks --region eu-central-1 update-kubeconfig --name team4
+                            sudo kubectl config set-context arn:aws:eks:eu-central-1:637423483309:cluster/team4
                         '''
 
                         // Deploy to EKS
                         sh '''
-                            kubectl --kubeconfig $KUBECONFIG_PATH set image deployment/flask-app-deployment flask-app=$DOCKER_IMAGE:1722344581
+                            sudo kubectl --kubeconfig $KUBECONFIG_PATH set image deployment/flask-app-deployment flask-app=$DOCKER_IMAGE:1722344581
                         '''
                     }
                 }
