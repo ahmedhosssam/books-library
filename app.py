@@ -76,8 +76,7 @@ def add():
         title = request.form['title']
         author = request.form['author']
         add_book(title, author)
-        #flash('Book added successfully!')
-        flash('This should appear')
+        flash('Book added successfully!')
         return redirect(url_for('index'))
     return render_template('add_book.html')
 
